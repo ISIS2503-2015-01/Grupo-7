@@ -6,7 +6,7 @@
     <groupId>gdm.tdm</groupId>
     <artifactId>pacientes</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>pacientes pre shiro</name>
+    <name>API-TDM</name>
     
     <dependencyManagement>
         <dependencies>
