@@ -10,16 +10,29 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 /**
  *
  * @author nicolas
  */
 @Entity
-public class Paciente implements Serializable{
+public class Doctor implements Serializable {
     
-    private static final long serialVersionUID = 1L;
+    private static long serialVersionUID = 1L;
+
+    /**
+     * @return the serialVersionUID
+     */
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    /**
+     * @param aSerialVersionUID the serialVersionUID to set
+     */
+    public static void setSerialVersionUID(long aSerialVersionUID) {
+        serialVersionUID = aSerialVersionUID;
+    }
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,18 +42,7 @@ public class Paciente implements Serializable{
     
     private String apellido;
     
-    private String cedula;
-    
-    @ManyToOne
-    private Doctor doc;
-    
-    public Paciente(String nombre, String apellido, String cedula){
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.cedula = cedula;
-    }
-    
-    public Paciente(){
+    public Doctor(){
         
     }
 
@@ -86,33 +88,5 @@ public class Paciente implements Serializable{
         this.apellido = apellido;
     }
 
-    /**
-     * @return the cedula
-     */
-    public String getCedula() {
-        return cedula;
-    }
-
-    /**
-     * @param cedula the cedula to set
-     */
-    public void setCedula(String cedula) {
-        this.cedula = cedula;
-    }
-
-    /**
-     * @return the doc
-     */
-    public Doctor getDoc() {
-        return doc;
-    }
-
-    /**
-     * @param doc the doc to set
-     */
-    public void setDoc(Doctor doc) {
-        this.doc = doc;
-    }
-
-        
+    
 }

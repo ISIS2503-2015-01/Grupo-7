@@ -5,6 +5,8 @@
  */
 package gdm.tdm.pacientes.pojos.DTO;
 
+import gdm.tdm.pacientes.pojos.Doctor;
+
 /**
  *
  * @author nicolas
@@ -16,7 +18,7 @@ public class UsuarioDTO {
     private String email;
     private String password;
     private String grupo;
-    
+    private Doctor doc;
     public UsuarioDTO(){
         
     }
@@ -89,6 +91,20 @@ public class UsuarioDTO {
      */
     public void setGrupo(String grupo) {
         this.grupo = grupo;
+    }
+
+    /**
+     * @return the doc
+     */
+    public Doctor getDoc() {
+        return doc;
+    }
+
+    /**
+     * @param doc the doc to set
+     */
+    public void setDoc(Doctor doc) {
+        this.doc = doc;
     }
     
     
