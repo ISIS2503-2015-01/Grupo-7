@@ -133,6 +133,47 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
     }
   })
+  .state('paciente.causas',{
+    url:'/causas',
+    views:{
+      'paciente-causas':{
+        templateUrl:'templates/pacientes-causa.html',
+        controller:'PacienteCausasCtrl'
+      }
+    },
+    resolve:{
+      causas: function(ServicioApi, CredencialesService){
+        return ServicioApi.reporteCausas(CredencialesService.usuario.id);
+      }
+    }
+  })
+  .state('paciente.historial',{
+    url:'/historial',
+    views:{
+      'paciente-historial':{
+        templateUrl:'templates/pacientes-historial.html',
+        controller:'PacienteHistorialCtrl'
+      }
+    },
+    resolve:{
+      episodios: function(ServicioApi, CredencialesService){
+        return ServicioApi.episodios(CredencialesService.usuario.id);
+      }
+    }
+  }).state('paciente.episodio',{
+    url:'/episodio/:idEpisodio',
+    views:{
+      'paciente-historial':{
+        templateUrl:'templates/doctores-episodio.html',
+        controller:'DoctorEpisodioCtrl'
+      }
+    },
+    resolve:{
+      episodio:function(ServicioApi, $stateParams){
+        return ServicioApi.episodio($stateParams.idEpisodio);
+      }
+    }
+  })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/autenticacion');

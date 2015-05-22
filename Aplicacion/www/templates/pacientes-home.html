@@ -12,9 +12,9 @@
 		</div>
 		<div class="item item-input-inset">
 			<label class="item-input-wrapper">
-				<input type="text" placeholder="Nueva Causa">
+				<input type="text" placeholder="Nueva Causa" ng-model="nuevo.causa.nombre">
 			</label>
-			<button class="button button-small">
+			<button class="button button-small" ng-click="crearCausa()">
 				+
 			</button>
 		</div>
@@ -24,13 +24,13 @@
 		</div>
 		<div class="item item-input-inset">
 			<label class="item-input-wrapper">
-				<input type="text" placeholder="Nuevo Medicamento">
+				<input type="text" placeholder="Nuevo Medicamento" ng-model="nuevo.medicamento.nombre">
 			</label>
-			<button class="button button-small">
+			<button class="button button-small" ng-click="crearMedicamento()">
 				+
 			</button>
 		</div>
 
-		<a class="button button-block button-calm" ui-sref="autenticacion">Crear Episodio</a>
+		<a class="button button-block button-calm" ng-click="crearEpisodio()">Crear Episodio</a>
 	</ion-content>
 </ion-view>

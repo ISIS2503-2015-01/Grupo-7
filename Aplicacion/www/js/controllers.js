@@ -1,23 +1,4 @@
 angular.module('starter.controllers', [])
-
-.controller('DashCtrl', function($scope) {})
-
-.controller('ChatsCtrl', function($scope, Chats) {
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  }
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
-
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
-})
 .controller('RegistroCtrl',['$scope','doctores','ServicioApi','EstadoService','CredencialesService',function($scope,doctores,ServicioApi,EstadoService,CredencialesService){
 	$scope.registro = {};
 	$scope.preregistro = {};
@@ -99,11 +80,38 @@ angular.module('starter.controllers', [])
 	}
 
 }])
-.controller('PacienteEpisodioCtrl',['$scope','causas','medicamentos',function($scope,causas,medicamentos){
-	console.log(causas);
-	console.log(medicamentos);
+.controller('PacienteEpisodioCtrl',['$scope','causas','medicamentos','ServicioApi',function($scope,causas,medicamentos,ServicioApi){
+	$scope.episodio = {}
 	$scope.causas = causas.data.causas;
 	$scope.medicamentos = medicamentos.data.medicamentos;
 	$scope.causasSeleccionadas = {};
-	$scope.medicamentosSeleccionados={};
+
+	$scope.crearCausa = function(){
+		ServicioApi.crearCausa($scope.nuevo.causa).then(function(data){
+			$scope.nuevo.causa.id = data.id;
+			$scope.causas[Object.keys($scope.causas).length] = $scope.nuevo.causa;
+			$scope.causasSeleccionadas[Object.keys($scope.causasSeleccionadas).length] = {
+				id:data.id
+			} 
+		});
+	}
+
+	$scope.crearMedicamento = function(){
+		ServicioApi.crearMedicamento($scope.nuevo.medicamento).then(function(data){
+			$scope.nuevo.medicamento.id = data.id;
+			$scope.medicamentos[Object.keys($scope.causasSeleccionadas).length] = $scope.nuevo.medicamento;
+			$scope.medicamento = $scope.nuevo.medicamento;
+		});
+	}
+
+	$scope.crearEpisodio = function(){
+		console.log($scope.episodio);
+	}
+
+}])
+.controller('PacienteCausasCtrl',['$scope','causas',function($scope,causas){
+	$scope.alarmas = causas.data.alarmas;
+}])
+.controller('PacienteHistorialCtrl',['$scope','episodios',function($scope,episodios){
+	$scope.episodios = episodios.data.episodios;
 }]);

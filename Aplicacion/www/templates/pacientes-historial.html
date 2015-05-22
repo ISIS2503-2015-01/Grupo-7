@@ -1,0 +1,13 @@
+<ion-view view-title="Historial de Episodios">
+  <ion-content >
+	<div class="list list-inset">
+    	<h2>Historial de episodios</h2>
+    	<a ui-sref="paciente.episodio({idEpisodio:{{episodio.id}}})" class="item" ng-repeat="episodio in episodios">
+    		<h2>{{episodio.fecha | date}}</h2>
+    		<h3>{{episodio.intensidad}}</h3>
+    		<p>Medicamento: {{episodio.medicamento}}</p>
+    		<p>Funciono: {{episodio.funciono}}</p>
+    	</a>
+    </div>
+  </ion-content>
+</ion-view>

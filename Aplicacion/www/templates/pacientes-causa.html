@@ -1,0 +1,8 @@
+<ion-view view-title="Causas Recurrentes">
+  <ion-content >
+    <div class="list list-inset">
+    	<h2>Posibles causas</h2>
+    	<div class="item" ng-repeat="alarma in alarmas">{{alarma.nombre+' : '+alarma.ocurrencias}}</div>
+    </div>
+	</ion-content>
+</ion-view>

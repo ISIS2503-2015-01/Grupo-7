@@ -106,7 +106,7 @@ angular.module('starter.services', [])
      }
     }
     return $http(req);
-  }
+  };
 
   var getMedicamentos = function(){
     var req = {
@@ -116,6 +116,32 @@ angular.module('starter.services', [])
        'Content-Type': 'application/json',
        'autenticado': 'true'
      }
+    }
+    return $http(req);
+  };
+
+  var crearCausa = function(data){
+    var req = {
+     method: 'POST',
+     url: 'http://localhost:8085/api/paciente/'+CredencialesService.usuario.id+'/causa',
+     headers: {  
+       'Content-Type': 'application/json',
+       'autenticado': 'true'
+     },
+     data:data
+    }
+    return $http(req);
+  }
+
+  var crearMedicamento = function(data){
+    var req = {
+     method: 'POST',
+     url: 'http://localhost:8085/api/paciente/'+CredencialesService.usuario.id+'/medicamento',
+     headers: {  
+       'Content-Type': 'application/json',
+       'autenticado': 'true'
+     },
+     data:data
     }
     return $http(req);
   }
@@ -130,7 +156,9 @@ angular.module('starter.services', [])
     episodio:getEpisodio,
     buscarPaciente:buscarPaciente,
     causas:getCausas,
-    medicamentos:getMedicamentos
+    medicamentos:getMedicamentos,
+    crearCausa:crearCausa,
+    crearMedicamento:crearMedicamento
   }
 }])
 .factory('EstadoService',['$state',function($state){
