@@ -15,6 +15,7 @@ import com.stormpath.sdk.authc.AuthenticationResult;
 import com.stormpath.sdk.authc.UsernamePasswordRequest;
 import com.stormpath.sdk.client.Client;
 import com.stormpath.sdk.client.Clients;
+import com.stormpath.sdk.directory.CustomData;
 import com.stormpath.sdk.group.Group;
 import com.stormpath.sdk.resource.ResourceException;
 import com.stormpath.sdk.tenant.Tenant;
@@ -43,23 +44,25 @@ public class StormPath {
         pacientes = cliente.getResource("https://api.stormpath.com/v1/groups/4LnDeY90ewgxc6mX4lUGdC", Group.class);
     }
     
-    public boolean autenticar(UsuarioDTO usuario){
+    public Account autenticar(UsuarioDTO usuario){
         AuthenticationRequest solicitud = new UsernamePasswordRequest(usuario.getEmail(), usuario.getPassword());
         try{
             AuthenticationResult resutl = app.authenticateAccount(solicitud);
             Account cuenta = resutl.getAccount();
-            return true;
+            return cuenta;
         }catch(ResourceException e){
-            return false;
+            return null;
         }
     }
     
-    public boolean registrar(UsuarioDTO nuevoUsuario){
+    public Account registrar(UsuarioDTO nuevoUsuario){
         Account cuenta = cliente.instantiate(Account.class);
         cuenta.setEmail(nuevoUsuario.getEmail());
         cuenta.setGivenName(nuevoUsuario.getGivenName());
         cuenta.setSurname(nuevoUsuario.getSurName());
         cuenta.setPassword(nuevoUsuario.getPassword());
+        CustomData custom = cuenta.getCustomData();
+        custom.put("id", -1);
         try{
             app.createAccount(cuenta);
             if(nuevoUsuario.getGrupo().equals("pacientes")){
@@ -67,9 +70,9 @@ public class StormPath {
             }else{
                 cuenta.addGroup(doctores);
             }
-            return true;
+            return cuenta;
         }catch(ResourceException e){
-            return false;
+            return null;
         }
     } 
 }

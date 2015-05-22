@@ -18,7 +18,9 @@ public class UsuarioDTO {
     private String email;
     private String password;
     private String grupo;
+    private String cedula;
     private Doctor doc;
+    private Long id;
     public UsuarioDTO(){
         
     }
@@ -105,6 +107,34 @@ public class UsuarioDTO {
      */
     public void setDoc(Doctor doc) {
         this.doc = doc;
+    }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the cedula
+     */
+    public String getCedula() {
+        return cedula;
+    }
+
+    /**
+     * @param cedula the cedula to set
+     */
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
     }
     
     

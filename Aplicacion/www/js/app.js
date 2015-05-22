@@ -30,7 +30,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   $stateProvider
   .state('autenticacion',{
     url:'/autenticacion',
-    templateUrl:'templates/autenticacion.html'
+    templateUrl:'templates/autenticacion.html',
+    controller:'LoginCtrl'
   })
   .state('registro',{
     url:'/registro',
@@ -44,52 +45,94 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   })
 
   // setup an abstract state for the tabs directive
-    .state('tab', {
-    url: "/tab",
+    .state('doctor', {
+    url: "/doctor",
     abstract: true,
     templateUrl: "templates/tabs.html"
   })
 
   // Each tab has its own nav history stack:
 
-  .state('tab.dash', {
-    url: '/dash',
+  .state('doctor.home', {
+    url: '/home',
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
+      'doctor-home': {
+        templateUrl: 'templates/doctores-home.html',
+        controller:'DoctorHomeCtrl'
+      }
+    },
+    resolve:{
+      pacientes: function(ServicioApi){
+        return ServicioApi.pacientesDoctor();
       }
     }
   })
-
-  .state('tab.chats', {
-      url: '/chats',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
+  .state('doctor.paciente',{
+    url:'/paciente/:idPaciente',
+    views:{
+      'doctor-home':{
+        templateUrl:'templates/doctores-paciente.html',
+        controller:'DoctorPacienteCtrl'
       }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
-
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+    },
+    resolve:{
+      episodios: function(ServicioApi, $stateParams){
+        return ServicioApi.episodios($stateParams.idPaciente);
+      },
+      reporteCausas: function(ServicioApi,$stateParams){
+        return ServicioApi.reporteCausas($stateParams.idPaciente);
       }
     }
-  });
+  })
+  .state('doctor.episodio',{
+    url:'/paciente/episodio/:idEpisodio',
+    views:{
+      'doctor-home':{
+        templateUrl:'templates/doctores-episodio.html',
+        controller:'DoctorEpisodioCtrl'
+      }
+    },
+    resolve:{
+      episodio:function(ServicioApi, $stateParams){
+        return ServicioApi.episodio($stateParams.idEpisodio);
+      }
+    }
+  })
+  .state('doctor.buscar',{
+    url:'/buscar',
+    views:{
+      'doctor-buscar':{
+        templateUrl:'templates/doctores-buscar.html',
+        controller:'DoctoresBusquedaCtrl'
+      }
+    }
+  })
+  .state('paciente', {
+    url: "/paciente",
+    abstract: true,
+    templateUrl: "templates/tabs-paciente.html"
+  })
+
+  // Each tab has its own nav history stack:
+
+  .state('paciente.home', {
+    url: '/home',
+    views: {
+      'paciente-home': {
+        templateUrl: 'templates/pacientes-home.html',
+        controller: 'PacienteEpisodioCtrl'
+      }
+    },
+    resolve:{
+      causas:function(ServicioApi){
+        return ServicioApi.causas();
+      },
+      medicamentos:function(ServicioApi){
+        return ServicioApi.medicamentos();
+      }
+
+    }
+  })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/autenticacion');

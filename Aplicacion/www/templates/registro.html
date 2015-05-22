@@ -1,11 +1,18 @@
 <ion-view view-title="Registro">
 	<ion-content class ="padding">
 		<div class="list list-inset">
+			<ion-radio ng-model="registro.grupo" value="doctores">Doctor</ion-radio>
+			<ion-radio ng-model="registro.grupo" value="pacientes">Paciente</ion-radio>
+		</div>
+		<div class="list list-inset">
 			<label class="item item-input">
 				<input type="text" placeholder="Nombre" ng-model="registro.givenName">
 			</label>
 			<label class="item item-input">
 				<input type="text" placeholder="Apellido" ng-model="registro.surName">
+			</label>
+			<label class="item item-input" ng-show="registro.grupo=== 'pacientes'">
+				<input type="text" placeholder="Cedula" ng-model="registro.cedula">
 			</label>
 			<label class="item item-input">
 				<input type="text" placeholder="Email" ng-model="registro.email">
@@ -13,10 +20,6 @@
 			<label class="item item-input">
 				<input type="password" placeholder="Password" ng-model="registro.password">
 			</label>
-		</div>
-		<div class="list list-inset">
-			<ion-radio ng-model="registro.grupo" value="doctores">Doctor</ion-radio>
-			<ion-radio ng-model="registro.grupo" value="pacientes">Paciente</ion-radio>
 		</div>
 		<div class="list" ng-show="registro.grupo === 'pacientes' ">
 			<label class="item item-input item-select">

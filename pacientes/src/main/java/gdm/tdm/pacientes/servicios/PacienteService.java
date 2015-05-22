@@ -12,6 +12,7 @@ import gdm.tdm.pacientes.pojos.DTO.RespuestaDTO;
 import gdm.tdm.pacientes.pojos.Episodio;
 import gdm.tdm.pacientes.pojos.Medicamento;
 import gdm.tdm.pacientes.pojos.Paciente;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -97,13 +98,14 @@ public class PacienteService {
             List<RespuestaDTO> causasPaciente = new LinkedList<>();
             for(Object[] f: rawPaciente){
                 RespuestaDTO resDTO = new RespuestaDTO();
-                resDTO.setId((Long)f[0]);
+                Long l = Long.valueOf(((Integer)f[0]).longValue()) ;
                 resDTO.setNombre((String)f[1]);
                 causasPaciente.add(resDTO);
             }
             ListaCausasDTO respuesta = new ListaCausasDTO(causasPaciente);
             r = Response.status(200).header("Access-Control-Allow-Origin", "*").entity(respuesta).build();
         }catch(Exception e){
+            e.printStackTrace();
             r= Response.status(400).header("Access-Control-Allow-Origin", "*").build();
         }
         return r;
@@ -201,13 +203,15 @@ public class PacienteService {
             List<RespuestaDTO> causasPaciente = new LinkedList<>();
             for(Object[] f: rawPaciente){
                 RespuestaDTO resDTO = new RespuestaDTO();
-                resDTO.setId((Long)f[0]);
+                Long l = Long.valueOf(((Integer)f[0]).longValue()) ;
+                resDTO.setId(l);
                 resDTO.setNombre((String)f[1]);
                 causasPaciente.add(resDTO);
             }
             ListaMedicamentosDTO respuesta = new ListaMedicamentosDTO(causasPaciente);
             r = Response.status(200).header("Access-Control-Allow-Origin", "*").entity(respuesta).build();
         }catch(Exception e){
+            e.printStackTrace();
             r= Response.status(400).build();
         }
         return r;
@@ -258,6 +262,61 @@ public class PacienteService {
             dto.setFecha(original.getFecha());
             dto.setMedicamento(original.getMedicamento().getNombre());
             dto.setIntensidad(original.getIntensidad());
+            dto.setId(original.getId());
+            List<RespuestaDTO> listaCausasDTO = new LinkedList<>();
+            for(Causa causaOriginal: original.getCausas()){
+                RespuestaDTO causaDTO = new RespuestaDTO();
+                causaDTO.setId(causaOriginal.getId());
+                causaDTO.setNombre(causaOriginal.getNombre());
+                listaCausasDTO.add(causaDTO);
+            }
+            dto.setCausas(listaCausasDTO);
+            episodiosDTO.add(dto);
+        }
+        return Response.status(Response.Status.OK).header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS").header("Access-Control-Allow-Headers", "Content-Type, Content-Range, Content-Disposition, Content-Description").entity(new ListaEpisodiosDTO(episodiosDTO)).build();
+    }
+    
+    @GET
+    @Path("episodio/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response verEpisodio(@PathParam("id") Long id){
+        Query q = entityManager.createQuery("Select e from Episodio e where e.id = :id");
+        q.setParameter("id", id);
+        Episodio e = (Episodio) q.getSingleResult();
+        EpisodioDTO respuesta = new EpisodioDTO();
+        respuesta.setFecha(e.getFecha());
+        respuesta.setFunciono(e.isFunciono());
+        respuesta.setMedicamento(e.getMedicamento().getNombre());
+        respuesta.setIntensidad(e.getIntensidad());
+        List<RespuestaDTO> listaCausasDTO = new ArrayList<>();
+        for(Causa c : e.getCausas()){
+            RespuestaDTO rr = new RespuestaDTO();
+            rr.setNombre(c.getNombre());
+            listaCausasDTO.add(rr);
+        }
+        respuesta.setCausas(listaCausasDTO);
+        return Response.status(Response.Status.OK).entity(respuesta).build();
+
+        
+    }
+    
+    @GET
+    @Path("/cedula/{cedula}/episodio")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response darEpisodiosPacienteCedula(@PathParam("cedula") String cedula){
+        
+        Query q = entityManager.createQuery("select u from Episodio u where u.paciente.cedula = ?1 ");
+        q.setParameter(1, cedula);
+        List<Episodio> episodios = q.getResultList();
+        System.out.println(episodios.size());
+        List<EpisodioDTO> episodiosDTO = new LinkedList<>();
+        for(Episodio original: episodios){
+            EpisodioDTO dto = new EpisodioDTO();
+            dto.setFunciono(original.isFunciono());
+            dto.setFecha(original.getFecha());
+            dto.setMedicamento(original.getMedicamento().getNombre());
+            dto.setIntensidad(original.getIntensidad());
+            dto.setId(original.getId());
             List<RespuestaDTO> listaCausasDTO = new LinkedList<>();
             for(Causa causaOriginal: original.getCausas()){
                 RespuestaDTO causaDTO = new RespuestaDTO();

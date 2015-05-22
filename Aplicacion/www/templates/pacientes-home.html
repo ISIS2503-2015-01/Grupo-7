@@ -1,0 +1,36 @@
+<ion-view view-title="Nuevo Episodio">
+	<ion-content class ="padding">
+		<div class="list list-inset">
+			<label class="item item-input">
+				<input type="text" placeholder="Intensidad" ng-model="episodio.intensidad">
+			</label>
+		</div>
+
+		<div class="list list-inset">
+			<h2>Causas</h2>
+			<ion-checkbox ng-repeat="causa in causas" ng-model="causasSeleccionadas[$index].id" ng-checked="{{causa.id}}">{{causa.nombre}}</ion-checkbox>
+		</div>
+		<div class="item item-input-inset">
+			<label class="item-input-wrapper">
+				<input type="text" placeholder="Nueva Causa">
+			</label>
+			<button class="button button-small">
+				+
+			</button>
+		</div>
+		<div class="list list-inset">
+			<h2>Medicamentos</h2>
+			<ion-radio ng-model="episodio.medicamento.id" ng-value="{{medicamento.id}}" ng-repeat="medicamento in medicamentos">{{medicamento.nombre}}</ion-radio>
+		</div>
+		<div class="item item-input-inset">
+			<label class="item-input-wrapper">
+				<input type="text" placeholder="Nuevo Medicamento">
+			</label>
+			<button class="button button-small">
+				+
+			</button>
+		</div>
+
+		<a class="button button-block button-calm" ui-sref="autenticacion">Crear Episodio</a>
+	</ion-content>
+</ion-view>

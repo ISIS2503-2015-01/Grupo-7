@@ -1,0 +1,17 @@
+<ion-view view-title="Epsisodios">
+  <ion-content >
+    <div class="list list-inset">
+    	<h2>Posibles causas</h2>
+    	<div class="item" ng-repeat="alarma in alarmas">{{alarma.nombre+' : '+alarma.ocurrencias}}</div>
+    </div>
+    <div class="list list-inset">
+    	<h2>Historial de episodios</h2>
+    	<a ui-sref="doctor.episodio({idEpisodio:{{episodio.id}}})" class="item" ng-repeat="episodio in episodios">
+    		<h2>{{episodio.fecha | date}}</h2>
+    		<h3>{{episodio.intensidad}}</h3>
+    		<p>Medicamento: {{episodio.medicamento}}</p>
+    		<p>Funciono: {{episodio.funciono}}</p>
+    	</a>
+    </div>
+  </ion-content>
+</ion-view>

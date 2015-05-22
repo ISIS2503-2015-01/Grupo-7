@@ -1,0 +1,11 @@
+<ion-view view-title="Tus Pacientes">
+  <ion-content >
+    <div class="list">
+      <a ui-sref="doctor.paciente({idPaciente:{{paciente.id}}})" ng-repeat="paciente in pacientes" class ="item item-avatar">
+        <img src="../img/ni.gif" alt="">
+        <h2 >{{paciente.givenName+' '+paciente.surName}}</h2>
+        <p ng-bind="{{paciente.cedula}}"></p>
+      </a>
+    </div>
+  </ion-content>
+</ion-view>

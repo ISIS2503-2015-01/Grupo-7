@@ -1,0 +1,25 @@
+<ion-view view-title="Buscar">
+	<ion-content class ="padding">
+		<div class="list list-inset">
+			<label class="item item-input">
+				<input type="text" placeholder="Cedula Paciente" ng-model="busqueda.cedula">
+			</label>
+			<label class="item item-input">
+				<input type="text" placeholder="Fecha Incio AAAA-mm--dd" ng-model="busqueda.inicio">
+			</label>
+			<label class="item item-input">
+				<input type="text" placeholder="Fecha Fin AAAA-mm--dd" ng-model="busqueda.fin">
+			</label>
+			<button class="button button-block button-calm" ng-click="buscar()">Buscar</button>
+			<div ng-show="busqueda.resultados" class="list list-inset">
+		    	<h2>Resultados de la busqueda</h2>
+		    	<a ui-sref="doctor.episodio({idEpisodio:{{episodio.id}}})" class="item" ng-repeat="episodio in busqueda.resultados">
+		    		<h2>{{episodio.fecha | date}}</h2>
+		    		<h3>{{episodio.intensidad}}</h3>
+		    		<p>Medicamento: {{episodio.medicamento}}</p>
+		    		<p>Funciono: {{episodio.funciono}}</p>
+		    	</a>
+   			 </div>
+		</div>
+	</ion-content>
+</ion-view>

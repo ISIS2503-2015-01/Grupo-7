@@ -1,0 +1,16 @@
+<ion-view view-title="Detalles Episodio">
+	<ion-content>
+		<div class="list list-inset">
+		    <h2>{{episodio.fecha | date}}</h2>
+		    <h3>Intensidad: {{episodio.intensidad}}</h3>
+		    <p>Medicamento: {{episodio.medicamento}}</p>
+		    <p>Funciono: {{episodio.funciono}}</p>
+		    <h3>Causas asociadas</h3>
+		    <div class="item" ng-repeat="causa in episodio.causas">{{causa.nombre}}</div>
+		    <h4 ng-if="episodio.causas.length ==0">No tiene casuas asociadas</h4>
+		
+	    </div>
+	</ion-content>
+    
+    
+</ion-view>
